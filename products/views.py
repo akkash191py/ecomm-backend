@@ -9,17 +9,30 @@ from rest_framework.permissions import IsAuthenticated
 
 
 class UserView(APIView):
+
+    """ API for User ISauthentication"""
+
     permission_classes = [IsAuthenticated]
     def get(self,request):
         print(request.user)
         return Response({'sucess': "hurray you are authenticated" })
 
 
+
+
 class ProductView(APIView):
 
+    """ API for Product """
+
     def get(self,request):
-        queryset = Product.objects.all()
-        serializer = ProductSerializer(queryset , many=True)
-        return Response(serializer.data)
+        category = self.request.query_params.get('category')
+        if category:
+            queryset = Product.objects.filter(category__category_name = category)
+        else:
+            queryset = Product.objects.all()
+        serializer = ProductSerializer(queryset , many = True)
+        return Response({'count' : len(serializer.data) , 'data' : serializer.data})
+
+
 
 

@@ -1,4 +1,6 @@
 from django.contrib import admin
-from cart.models import Item
+from .models import *
 
-admin.site.register(Item)
+
+admin.site.register(Cart)
+admin.site.register(CartItems)
